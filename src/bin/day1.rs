@@ -84,7 +84,6 @@ fn line_to_digits(line: &str) -> Vec<u8> {
 }
 
 fn process_line(line: &str) -> Option<(i32, i32)> {
-    //let pline = preprocess_line(line);
     let digits = line_to_digits(line);
     // Convert char value by subtracting the ascii value of '0'
     let n1 = digits.first()? - b'0';
