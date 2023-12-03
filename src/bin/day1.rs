@@ -1,42 +1,20 @@
 use advent_of_code_2023::read_puzzle_input;
 
-// fn preprocess_line(line: &str) -> String {
-//     let mut output = String::new();
-//     let idx = 0;
-//     let mut substr = &line[idx..];
-//     while idx < line.len() {
-//         if substr.starts_with("one") {
-            
-//         }
-//     }
-
-//     line
-//         .replace("one", "1")
-//         .replace("two", "2")
-//         .replace("three", "3")
-//         .replace("four", "4")
-//         .replace("five", "5")
-//         .replace("six", "6")
-//         .replace("seven", "7")
-//         .replace("eight", "8")
-//         .replace("nine", "9")
-// }
-
 fn line_to_digits(line: &str) -> Vec<u8> {
     let mut digits: Vec<u8> = Default::default();
-    let mut it = line.as_bytes().iter().enumerate().peekable();
+    let mut it = line.as_bytes().iter().enumerate();
     while let Some((idx, char)) = it.next() {
         match char {
             _ if char.is_ascii_digit() => {
                 digits.push(*char);
-            },
+            }
             b'o' => {
                 if line[idx..].starts_with("one") {
                     it.next(); // n
                     it.next(); // e
                     digits.push(b'1');
                 }
-            },
+            }
             b't' => {
                 let substr = &line[idx..];
                 if substr.starts_with("two") {
@@ -50,7 +28,7 @@ fn line_to_digits(line: &str) -> Vec<u8> {
                     it.next(); // e
                     digits.push(b'3');
                 }
-            },
+            }
             b'f' => {
                 let substr = &line[idx..];
                 if substr.starts_with("four") {
@@ -64,7 +42,7 @@ fn line_to_digits(line: &str) -> Vec<u8> {
                     it.next(); // e
                     digits.push(b'5');
                 }
-            },
+            }
             b's' => {
                 let substr = &line[idx..];
                 if substr.starts_with("six") {
@@ -78,7 +56,7 @@ fn line_to_digits(line: &str) -> Vec<u8> {
                     it.next(); // n
                     digits.push(b'7');
                 }
-            },
+            }
             b'e' => {
                 if line[idx..].starts_with("eight") {
                     it.next(); // i
@@ -87,7 +65,7 @@ fn line_to_digits(line: &str) -> Vec<u8> {
                     it.next(); // t
                     digits.push(b'8');
                 }
-            },
+            }
             b'n' => {
                 if line[idx..].starts_with("nine") {
                     it.next(); // i
@@ -95,7 +73,7 @@ fn line_to_digits(line: &str) -> Vec<u8> {
                     it.next(); // e
                     digits.push(b'9');
                 }
-            },
+            }
             _ => {
                 // Don't care
                 continue;
@@ -115,7 +93,8 @@ fn process_line(line: &str) -> Option<(i32, i32)> {
 }
 
 fn translate_instructions(lines: Vec<String>) -> i32 {
-    lines.into_iter()
+    lines
+        .into_iter()
         .filter_map(|line| process_line(&line))
         .map(|(d1, d2)| (d1 * 10) + d2)
         .sum()
@@ -164,7 +143,7 @@ mod tests {
     }
 
     #[test]
-    fn process_line_words () {
+    fn process_line_words() {
         // Setup
         let input = "six1b2dseventeen";
         let expected = (6, 7);
@@ -189,7 +168,8 @@ mod tests {
     fn translate_instructions_example() {
         // Setup
         let input = "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet\n";
-        let lines = read_puzzle_input(&mut std::io::Cursor::new(input)).expect("Unable to read puzzle input");
+        let lines = read_puzzle_input(&mut std::io::Cursor::new(input))
+            .expect("Unable to read puzzle input");
         let expected = 142;
         // Test
         let result = translate_instructions(lines);
@@ -201,12 +181,12 @@ mod tests {
     fn translate_instructions_example2() {
         // Setup
         let input = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen\n";
-        let lines = read_puzzle_input(&mut std::io::Cursor::new(input)).expect("Unable to read puzzle input");
+        let lines = read_puzzle_input(&mut std::io::Cursor::new(input))
+            .expect("Unable to read puzzle input");
         let expected = 281;
         // Test
         let result = translate_instructions(lines);
         // Assert
         assert_eq!(result, expected);
     }
-
 }
